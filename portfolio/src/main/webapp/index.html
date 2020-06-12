@@ -6,13 +6,162 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
+
+
   <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+        <a name="home"> </a>
+       
+        <div >
+            <!-- Side navigation -->
+            <div class="sidenav">
+            <div class= "nameintro"> 
+            <h1 style="color:whitesmoke; font-family:Didot;" >
+                <strong style="font-size: 33px;"> CHIDERA EMEONYE </strong>
+            </h1>
+            <p style="color:whitesmoke; font-family:Didot;" > Welcome to my Portfolio Website </p>
+            </div>
+
+            <div class="menu">
+                    <hr />
+                <a href="#home"><font size="-1">HOME </font> </a>
+                <hr />
+                <a href="#about"> <font size="-1">ABOUT</font> </a>
+                <hr />
+                <a href="#portfolio"> <font size="-1">PORTFOLIO</font> </a>
+                <hr />
+                <!-- <a href="#contact"> <font size="-1">CONTACT</font></a>
+                <hr /> -->
+            </div>
+        </div>
+        <!--Side navigation end-->
+     
+
+        <!-- main content -->
+        <div class="main">
+        <br>
+        <!-- Intro greeting -->
+        <h1>WELCOME</h1>
+        <br> <br>
+        <p> I am Chidera Oluwaseyi Emeonye, a Biochemistry 
+            and Molecular Biology major and a Rising Junior at Fisk University. </p>
+        <p> I am passionate about the intersection of Software Engineering and Medicine.</p>
+        
+
+
+        <!-- About me Section --> 
+        <a name="about"> </a>
+        <hr class="rounded"  width="100%;" color="#4CAF5" size="5">
+        <h1 style="text-align:left">ABOUT</h1>    
+
+        <div>
+            <img style="width:400px;height:600px;" class="profilePhoto" 
+            src="images/dera.jpg" alt="avatar" class="profile-pic">
+        
+            <p> Check out my 
+                <a href="https://www.linkedin.com/in/chidera-oluwaseyi-emeonye/">LinkedIn</a>
+                and <a href="https://github.com/derachimso">GitHub</a>
+            </p>
+        </div>
+
+        
+        <!-- Personal story section -->
+        <div id="myStory" class="center">
+           
+            <p> I was born and raised in Lagos, Nigeria and have
+                been around computers for as long as I can remember. 
+                My love for computer science started when I was 15 and
+                was accepted into the ImpactsLab 2014 Summer Workshop. There I was
+                introduced to programming, 3D printing and robotics and have had a
+                fascination with the field ever since.</p>
+            <p>Even though I am not a CS major, I stay very connected with the field 
+            through classes I take at my University and through my two internships 
+            at Google.   
+            </p>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+      <!-- Portfolio Section -->
+      <a name="portfolio"> </a>
+      <hr class="rounded" width="100%;" color="#4CAF5" size="5">
+      <h1>PORTFOLIO</h1>
+      <a name="portfolio"> </a>
+      
+
+    
+
+        
+
+        <!-- Portfolio Gallery Grid -->
+        <div class="row">
+        <div class="column project">
+            <div class="content">
+            <img src="images/google.png" alt="Google Search" style="width:100%">
+            <h3>Google Search</h3>
+            <p>In 2018, I worked on the Google Search team to create 
+               internal tools for testing and data cleaning.
+            </p>
+            </div>
+        </div>
+        
+        <div class="column project">
+            <div class="content">
+            <img src="images/fisk.png" alt="Fisk" style="width:100%">
+            <h3>2019 Research Project</h3>
+            <p> My partner and I successfully researched and developed
+                alternative cost effective solutions to Carbon dioxide and 
+                Sulfur Dioxide emissions from burning, a common phenomenon
+                in developing countries. We won best research project.
+            </p>
+            </div>
+        </div>
+
+        <div class="column hacks">
+            <div class="content">
+            <img src="images/nashhack.jpg" alt="Hackathon" style="width:100%">
+            <h3>Google Nash Hack</h3>
+            <p>My team won 2nd place.</p>
+            </div>
+        </div>
+        <div class="column hobbies">
+            <div class="content">
+            <img src="images/waistbead.jpeg" alt="beading" style="width:100%">
+            <h3>Beadwork</h3>
+            <p>In my spare time, I make waistbeads and other jewellery both as
+               a way to stay in tune with my culture and to relax. 
+            </p>
+            </div>
+        </div>
+       
+
+       
+
+        
+
+
+
+
+
+
+
+      <!-- <a name="contact"> </a>
+      <hr class="rounded"  width="100%;" color="#4CAF5" size="5">
+      <h1>CONTACT ME</h1> -->
+       
+      
+      
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <hr class="rounded"  width="100%;" color="#4CAF5" size="5">
+        <p style="text-align:center" >Click here to get a random fact about me:</p>
+        <button onclick="addRandomFact()">Want a fact about me?</button>
+        <div id="greeting-container"></div>
     </div>
   </body>
 </html>
