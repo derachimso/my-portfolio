@@ -27,3 +27,15 @@ function addRandomFact() {
   greetingContainer.innerText = greeting;
 }
 
+/**
+ * The above code is organized to show each individual step, but we can use an
+ * ES6 feature called arrow functions to shorten the code. This function
+ * combines all of the above code into a single Promise chain. You can use
+ * whichever syntax makes the most sense to you.
+ */
+function getRandomQuoteUsingArrowFunctions() {
+  fetch('/data').then(response => response.text()).then((comment) => {
+    document.getElementById('comment-container').innerText = comment;
+  });
+}
+
