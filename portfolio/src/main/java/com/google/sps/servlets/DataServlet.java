@@ -26,7 +26,7 @@ public class DataServlet extends HttpServlet {
 //    Arraylist<String> comments = new Arraylist<String>();
 //     comments.add("I am a pretty girl");
 //     comments.add("I am a cute girl");
-//     comments.add("I am a phenominal girl");
+//     comments.add("I am a phenomenal girl");
 
   String comment = "Hello Chidera!";
 
