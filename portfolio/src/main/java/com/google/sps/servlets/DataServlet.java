@@ -15,6 +15,8 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import com.google.gson.Gson;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,16 +25,34 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-//    Arraylist<String> comments = new Arraylist<String>();
-//     comments.add("I am a pretty girl");
-//     comments.add("I am a cute girl");
-//     comments.add("I am a phenomenal girl");
-
-  String comment = "Hello Chidera!";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+   ArrayList<String> comments = new ArrayList<String>();
+   comments.add("I am a pretty girl");
+   comments.add("I am a cute girl");
+   comments.add("I am a phenomenal girl");
+
+    // Convert the ArrayList to JSON
+    String json = convertToJson(comments);
+
+    // Send the JSON as the response
     response.setContentType("text/html;");
-    response.getWriter().println(comment);
+    response.getWriter().println(json);
+  }
+
+  private String convertToJson(ArrayList<String> comments) {
+    String json = "{";
+    json += "\"firstComment\": ";
+    json += "\"" + comments.get(0) + "\"";
+    json += ", ";
+    json += "\"secondComment\": ";
+    json += "\"" + comments.get(1) + "\"";
+    json += ", ";
+    json += "\"thirdComment\": ";
+    json += "\"" + comments.get(2) + "\"";
+    json += "}";
+    return json;
   }
 }
