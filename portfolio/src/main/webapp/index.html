@@ -7,7 +7,7 @@
     <script src="script.js"></script>
   </head>
 
-  <body>
+  <body onload="getComments()">
         <a name="home"> </a>
        
         <div >
@@ -132,10 +132,27 @@
         <button onclick="addRandomFact()">Want a fact about me?</button>
         <div id="greeting-container"></div>
 
-        <h1>Comments</h1>
-        <p>Click here to see a random comment:</p>
-        <button onclick="getCommentsUsingArrowFunctions()">Comments!</button>
-        <div id="comment-container"></div>
+        <div id="allcomments">
+        <h3>Comments</h3>
+        <!-- We will show past comments in the list below-->
+        <ul id="comment-container"></ul>
+        
+        <h5>Leave me a Comment</h5>
+        <!-- This is the form for entering a new comment -->
+        
+        <form action="/data" method="POST" id="commentform">
+        
+            <label for="userName" class="required">Your name</label>
+            <input type="text" name="userName" id="userName" value="" tabindex="1" required>
+
+            <label for="userComment" class="required">Your message</label>
+            <textarea type="text" name="userComment" id="userComment" rows="10" tabindex="3"  required="required"></textarea>
+
+            <input name="submit" type="submit" value="Submit comment" />
+
+        </form>
+
+        </div>
     </div>
   </body>
 </html>
