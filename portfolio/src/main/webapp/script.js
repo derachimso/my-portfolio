@@ -33,17 +33,27 @@ function addRandomFact() {
  * combines all of the above code into a single Promise chain. You can use
  * whichever syntax makes the most sense to you.
  */
-function getComments() {
-  fetch('/data').then(response => response.json()).then((post) => {
+function getTranslation() {
+    const lang = document.getElementById('language').value;
+    console.log(lang);
     
-    const commentsListElement = document.getElementById('comment-container');
-    commentsListElement.innerHTML = '';
-    post.forEach((post) => {
-        commentsListElement.appendChild(
-            createListElement(post.userName + '; ' + post.userComment));
+    const resultContainer = document.getElementById('comments-container');
+    resultContainer.innerText = 'Loading...';
+
+    const params = new URLSearchParams();
+    params.append('lang', lang);
+
+    fetch('/data?' + params.toString(), {
+        method: 'GET'
+    }).then(response => response.json())
+    .then((translatedMessage) => {
+        resultContainer.innerText = '';
+        translatedMessage.forEach((post) => {
+        resultContainer.appendChild(
+            createListElement(post.userName + ': ' + post.userComment));
         });
-  });
-  
+    });
+    
 }
 
 /** Creates an <li> element containing text. */
