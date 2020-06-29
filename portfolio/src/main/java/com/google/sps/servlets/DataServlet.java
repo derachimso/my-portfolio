@@ -46,7 +46,6 @@ public class DataServlet extends HttpServlet {
         PreparedQuery results = datastore.prepare(query); 
       
         String lang = request.getParameter("lang");
-        System.out.println(lang);
 
       
         List<CommentData> commentlog = new ArrayList<>();
@@ -57,8 +56,7 @@ public class DataServlet extends HttpServlet {
             long timestamp = (long) entity.getProperty("timestamp");
 
             String Comment = translateComment(userComment, lang);
-            
-            System.out.println(Comment);
+
 
             CommentData task = new CommentData(id, timestamp, userName, Comment);
 
@@ -106,7 +104,6 @@ public class DataServlet extends HttpServlet {
             Translation translation = 
                 translate.translate(Comment, Translate.TranslateOption.targetLanguage("en"));
             String translatedText = translation.getTranslatedText();
-            System.out.println(Comment);
             return translatedText;
         }
 
