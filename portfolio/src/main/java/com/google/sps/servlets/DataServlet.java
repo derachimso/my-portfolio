@@ -14,25 +14,83 @@
 
 package com.google.sps.servlets;
 
+import com.google.sps.data.CommentData;
+import com.google.gson.Gson;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-//    Arraylist<String> comments = new Arraylist<String>();
-//     comments.add("I am a pretty girl");
-//     comments.add("I am a cute girl");
-//     comments.add("I am a phenomenal girl");
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+        Query query = new Query("CommentData").addSort("timestamp", SortDirection.DESCENDING);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query); 
+        String lang = request.getParameter("lang");
 
-  String comment = "Hello Chidera!";
+        List<CommentData> commentlog = new ArrayList<>();
+        for (Entity entity : results.asIterable()) {
+            long id = entity.getKey().getId();
+            String userName = (String) entity.getProperty("userName");
+            String userComment = (String) entity.getProperty("userComment");
+            long timestamp = (long) entity.getProperty("timestamp");
+            String Comment = translateComment(userComment, lang);
+            CommentData task = new CommentData(id, timestamp, userName, Comment);
+            commentlog.add(task);
+        }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println(comment);
-  }
+        // Convert the comments to JSON
+        String json = convertToJsonUsingGson(commentlog);
+        // Send the JSON as the response
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
+    }
+  
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String userComment = request.getParameter("userComment");
+        String userName = request.getParameter("userName");
+        long timestamp = System.currentTimeMillis();
+        Entity commentEntity = new Entity("CommentData");
+        commentEntity.setProperty("userName", userName);
+        commentEntity.setProperty("userComment", userComment);
+        commentEntity.setProperty("timestamp", timestamp);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
+
+        // Redirect back to the HTML page.
+        response.sendRedirect("/index.html");
+    }
+    
+    private String convertToJsonUsingGson(List<CommentData> commentlog) {
+        Gson gson = new Gson();
+        return gson.toJson(commentlog);
+    }
+
+    // Do the translation. So that when the function is called the 
+    // translated text will display
+    private String translateComment(String Comment, String lang) {
+        lang = lang==null?"en":lang;
+        Translate translate = TranslateOptions.getDefaultInstance().getService();
+        Translation translation =
+        translate.translate(Comment, Translate.TranslateOption.targetLanguage(lang));
+        return translation.getTranslatedText();
+    }
 }

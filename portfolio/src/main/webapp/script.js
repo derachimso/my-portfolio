@@ -33,17 +33,35 @@ function addRandomFact() {
  * combines all of the above code into a single Promise chain. You can use
  * whichever syntax makes the most sense to you.
  */
-function getRandomQuoteUsingArrowFunctions() {
-  fetch('/data').then(response => response.text()).then((comment) => {
-    document.getElementById('comment-container').innerText = comment;
-  });
+function getTranslation() {
+    const lang = document.getElementById('language').value;
+    
+    const resultContainer = document.getElementById('comments-container');
+    resultContainer.innerText = 'Loading...';
+
+    const params = new URLSearchParams();
+    params.append('lang', lang);
+
+    fetch('/data?' + params.toString(), {
+        method: 'GET'
+    }).then(response => response.json())
+    .then((translatedMessage) => {
+        resultContainer.innerText = '';
+        translatedMessage.forEach((post) => {
+        resultContainer.appendChild(
+            createListElement(post.userName + ': ' + post.userComment));
+        });
+    });
+    
 }
 
-fetch('/my-data-url')  // sends a request to /my-data-url
-.then(response => response.json()) // parses the response as JSON
-.then((myObject) => { // now we can reference the fields in myObject!
-  console.log(myObject.x);
-  console.log(myObject.y);
-  console.log(myObject.z);
-});
+/** Creates an <li> element containing text. */
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+
+
 
