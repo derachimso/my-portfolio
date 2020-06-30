@@ -81,7 +81,7 @@ public class DataServlet extends HttpServlet {
     
     private String convertToJsonUsingGson(List<CommentData> commentlog) {
         Gson gson = new Gson();
-        return gson.toJson(commentLog);
+        return gson.toJson(commentlog);
     }
 
     // Do the translation. So that when the function is called the 
@@ -90,9 +90,7 @@ public class DataServlet extends HttpServlet {
         lang = lang==null?"en":lang;
         Translate translate = TranslateOptions.getDefaultInstance().getService();
         Translation translation =
-        translate.translate(Comment, Translate.TranslateOption.targetLanguage("en"));
+        translate.translate(Comment, Translate.TranslateOption.targetLanguage(lang));
         return translation.getTranslatedText();
-        }
     }
-
 }
