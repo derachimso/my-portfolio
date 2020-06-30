@@ -35,7 +35,6 @@ function addRandomFact() {
  */
 function getTranslation() {
     const lang = document.getElementById('language').value;
-    console.log(lang);
     
     const resultContainer = document.getElementById('comments-container');
     resultContainer.innerText = 'Loading...';

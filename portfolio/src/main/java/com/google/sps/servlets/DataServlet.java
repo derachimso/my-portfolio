@@ -44,45 +44,34 @@ public class DataServlet extends HttpServlet {
         Query query = new Query("CommentData").addSort("timestamp", SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query); 
-      
         String lang = request.getParameter("lang");
 
-      
         List<CommentData> commentlog = new ArrayList<>();
         for (Entity entity : results.asIterable()) {
             long id = entity.getKey().getId();
             String userName = (String) entity.getProperty("userName");
             String userComment = (String) entity.getProperty("userComment");
             long timestamp = (long) entity.getProperty("timestamp");
-
             String Comment = translateComment(userComment, lang);
-
-
             CommentData task = new CommentData(id, timestamp, userName, Comment);
-
             commentlog.add(task);
         }
 
-
         // Convert the comments to JSON
         String json = convertToJsonUsingGson(commentlog);
-
         // Send the JSON as the response
         response.setContentType("application/json;");
         response.getWriter().println(json);
     }
   
-
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userComment = request.getParameter("userComment");
         String userName = request.getParameter("userName");
         long timestamp = System.currentTimeMillis();
-
         Entity commentEntity = new Entity("CommentData");
         commentEntity.setProperty("userName", userName);
         commentEntity.setProperty("userComment", userComment);
         commentEntity.setProperty("timestamp", timestamp);
-        
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(commentEntity);
 
@@ -92,28 +81,17 @@ public class DataServlet extends HttpServlet {
     
     private String convertToJsonUsingGson(List<CommentData> commentlog) {
         Gson gson = new Gson();
-        String json = gson.toJson(commentlog);
-        return json;
+        return gson.toJson(commentLog);
     }
 
     // Do the translation. So that when the function is called the 
     // translated text will display
     private String translateComment(String Comment, String lang) {
-        if (lang == null){
-            Translate translate = TranslateOptions.getDefaultInstance().getService();
-            Translation translation = 
-                translate.translate(Comment, Translate.TranslateOption.targetLanguage("en"));
-            String translatedText = translation.getTranslatedText();
-            return translatedText;
-        }
-
-        else{
-            System.out.println(Comment);
-            Translate translate = TranslateOptions.getDefaultInstance().getService();
-            Translation translation = 
-                translate.translate(Comment, Translate.TranslateOption.targetLanguage(lang));
-            String translatedText = translation.getTranslatedText();
-            return translatedText;
+        lang = lang==null?"en":lang;
+        Translate translate = TranslateOptions.getDefaultInstance().getService();
+        Translation translation =
+        translate.translate(Comment, Translate.TranslateOption.targetLanguage("en"));
+        return translation.getTranslatedText();
         }
     }
 
